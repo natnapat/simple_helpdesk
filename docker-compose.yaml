@@ -1,0 +1,30 @@
+version: "3.8"
+services:
+  postgres:
+    image: postgres:14.5-alpine
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=mysecret
+      - POSTGRES_DB=simple_helpdesk
+  
+  api:
+    build:
+      context: .
+      dockerfile: api.Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - DB_HOST=postgres
+    depends_on:
+      - postgres
+    entrypoint: ["/app/wait-for.sh","postgres:5432","--","/app/start.sh"]
+    command: ["/app/main"]
+  
+  frontend:
+    build: ./frontend
+    container_name: frontend_c
+    ports:
+      - "9500:9500"
+    volumes:
+      - './frontend:/app'
+      - '/app/node_modules'
