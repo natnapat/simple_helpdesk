@@ -126,7 +126,7 @@ func (s ticketService) GetTickets() ([]TicketResponse, error) {
 			Description: ticket.Description,
 			Contact:     ticket.Contact,
 			Status:      status,
-			Created_at:  ticket.Created_at.Format("2006-1-2 15:04:05"),
+			Created_at:  ticket.Created_at.Format("2006-01-02 15:04:05"),
 			Updated_at:  updatedAt,
 		}
 		ticketResponses = append(ticketResponses, ticketResponse)
